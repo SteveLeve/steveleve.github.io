@@ -95,6 +95,37 @@ a:hover { text-decoration: underline }
 .card h3 { margin: .2rem 0 }
 .card .muted { color: var(--muted); margin-top: -.5rem }
 
+.card__header {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.card__icon {
+  font-size: 1.5rem;
+  color: var(--brand);
+  background: rgba(103,80,164,.12);
+  padding: .5rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+}
+
+[data-theme="dark"] .card__icon {
+  background: rgba(208,188,255,.12);
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
 .stripe {
   margin: 1.75rem 0; padding: 1.25rem 1.25rem;
   display: flex; align-items: center; justify-content: space-between; gap: var(--gap);
@@ -123,6 +154,23 @@ a:hover { text-decoration: underline }
 .footer {
   max-width: 1120px; margin: 2rem auto 3rem; padding: 0 1.25rem;
   display: flex; align-items: center; gap: 1rem; color: var(--muted);
+}
+
+.footer__link {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  color: var(--muted);
+  transition: color .2s ease;
+}
+
+.footer__link:hover {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.footer__link .material-symbols-outlined {
+  font-size: 1.1rem;
 }
 .theme-toggle {
   border: 0;
