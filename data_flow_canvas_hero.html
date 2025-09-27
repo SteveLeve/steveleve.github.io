@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Flow Hero</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -209,8 +210,8 @@
             ));
         }
         
-        // Floating tech icons
-        class TechIcon {
+        // Floating service icons
+        class ServiceIcon {
             constructor(x, y, type) {
                 this.x = x;
                 this.y = y;
@@ -219,6 +220,12 @@
                 this.time = Math.random() * Math.PI * 2;
                 this.amplitude = 20;
                 this.frequency = 0.02;
+                this.iconMap = {
+                    'monitoring': 'monitoring',
+                    'cloud': 'cloud_upload', 
+                    'advisor': 'psychology',
+                    'ai': 'smart_toy'
+                };
             }
             
             update() {
@@ -228,78 +235,40 @@
             
             draw() {
                 ctx.save();
-                ctx.globalAlpha = 0.6;
-                ctx.fillStyle = isLight ? '#3B82F6' : '#60A5FA';
+                ctx.globalAlpha = 0.7;
                 
-                const size = 40;
+                const size = 48;
                 const x = this.x - size/2;
                 const y = this.y - size/2;
                 
-                // Draw icon background
-                ctx.fillRect(x, y, size, size);
+                // Draw icon background circle
+                ctx.fillStyle = isLight ? 'rgba(59, 130, 246, 0.1)' : 'rgba(96, 165, 250, 0.1)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, size/2, 0, Math.PI * 2);
+                ctx.fill();
                 
-                // Draw icon symbol based on type
-                ctx.strokeStyle = isLight ? '#FFFFFF' : '#1F2937';
-                ctx.lineWidth = 3;
-                ctx.lineCap = 'round';
+                // Draw border
+                ctx.strokeStyle = isLight ? '#3B82F6' : '#60A5FA';
+                ctx.lineWidth = 2;
+                ctx.stroke();
                 
-                const centerX = this.x;
-                const centerY = this.y;
-                
-                switch(this.type) {
-                    case 'api':
-                        // API symbol
-                        ctx.beginPath();
-                        ctx.arc(centerX - 8, centerY, 4, 0, Math.PI * 2);
-                        ctx.arc(centerX + 8, centerY, 4, 0, Math.PI * 2);
-                        ctx.stroke();
-                        ctx.beginPath();
-                        ctx.moveTo(centerX - 4, centerY);
-                        ctx.lineTo(centerX + 4, centerY);
-                        ctx.stroke();
-                        break;
-                        
-                    case 'security':
-                        // Shield symbol
-                        ctx.beginPath();
-                        ctx.moveTo(centerX, centerY - 12);
-                        ctx.lineTo(centerX - 10, centerY - 8);
-                        ctx.lineTo(centerX - 10, centerY + 4);
-                        ctx.lineTo(centerX, centerY + 12);
-                        ctx.lineTo(centerX + 10, centerY + 4);
-                        ctx.lineTo(centerX + 10, centerY - 8);
-                        ctx.closePath();
-                        ctx.stroke();
-                        break;
-                        
-                    case 'ai':
-                        // Neural network symbol
-                        ctx.beginPath();
-                        ctx.arc(centerX - 6, centerY - 6, 3, 0, Math.PI * 2);
-                        ctx.arc(centerX + 6, centerY - 6, 3, 0, Math.PI * 2);
-                        ctx.arc(centerX, centerY + 8, 3, 0, Math.PI * 2);
-                        ctx.stroke();
-                        ctx.beginPath();
-                        ctx.moveTo(centerX - 3, centerY - 3);
-                        ctx.lineTo(centerX + 3, centerY - 3);
-                        ctx.moveTo(centerX - 3, centerY - 3);
-                        ctx.lineTo(centerX, centerY + 5);
-                        ctx.moveTo(centerX + 3, centerY - 3);
-                        ctx.lineTo(centerX, centerY + 5);
-                        ctx.stroke();
-                        break;
-                }
+                // Draw Material Design icon using text
+                ctx.fillStyle = isLight ? '#3B82F6' : '#60A5FA';
+                ctx.font = '24px "Material Symbols Outlined"';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(this.iconMap[this.type], this.x, this.y);
                 
                 ctx.restore();
             }
         }
         
-        // Create tech icons
-        const techIcons = [
-            new TechIcon(canvas.width * 0.8, canvas.height * 0.2, 'api'),
-            new TechIcon(canvas.width * 0.85, canvas.height * 0.4, 'security'),
-            new TechIcon(canvas.width * 0.9, canvas.height * 0.6, 'ai'),
-            new TechIcon(canvas.width * 0.75, canvas.height * 0.8, 'api')
+        // Create service icons
+        const serviceIcons = [
+            new ServiceIcon(canvas.width * 0.8, canvas.height * 0.2, 'monitoring'),
+            new ServiceIcon(canvas.width * 0.85, canvas.height * 0.4, 'cloud'),
+            new ServiceIcon(canvas.width * 0.9, canvas.height * 0.6, 'advisor'),
+            new ServiceIcon(canvas.width * 0.75, canvas.height * 0.8, 'ai')
         ];
         
         // Animation loop
@@ -320,8 +289,8 @@
                 }
             }
             
-            // Update and draw tech icons
-            techIcons.forEach(icon => {
+            // Update and draw service icons
+            serviceIcons.forEach(icon => {
                 icon.update();
                 icon.draw();
             });
@@ -332,6 +301,12 @@
         function toggleTheme() {
             isLight = !isLight;
             document.body.classList.toggle('light', isLight);
+            
+            // Update service icon positions on resize
+            serviceIcons[0].x = canvas.width * 0.8;
+            serviceIcons[1].x = canvas.width * 0.85;
+            serviceIcons[2].x = canvas.width * 0.9;
+            serviceIcons[3].x = canvas.width * 0.75;
             
             // Resize canvas to update background
             resizeCanvas();

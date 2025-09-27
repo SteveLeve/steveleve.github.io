@@ -47,5 +47,6 @@ A dynamic data-flow inspired professional IT services hero banner implemented us
 
 ## Change Log
 
+2025-01-27T15:45    switched to Material Design icons for service offerings (monitoring, cloud_upload, psychology, smart_toy)
 2025-09-07T16:30    initial Claude generated draft 
 
