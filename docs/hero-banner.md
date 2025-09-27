@@ -22,6 +22,15 @@ A dynamic data-flow inspired professional IT services hero banner implemented us
 
 ## Roadmap
 
+### Refine Icon Behaviors
+
+- on hover the icons should stop moving, the hovered item should display title + brief description
+- change animation so icons follow an "infinity loop" path, equally spaced along the track.  
+
+### Toggle Animation Button
+
+- Add a button under "toggle theme" that toggles the animation
+
 ### Performance Optimizations
 
 - Use requestAnimationFrame for smooth 60fps
