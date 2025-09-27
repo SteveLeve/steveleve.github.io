@@ -109,6 +109,8 @@
         const canvas = document.getElementById('heroCanvas');
         const ctx = canvas.getContext('2d');
         let isLight = false;
+        let mouse = { x: 0, y: 0, isActive: false };
+        let dataBursts = [];
         
         // Resize canvas
         function resizeCanvas() {
@@ -118,6 +120,25 @@
         
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
+        
+        // Mouse interaction
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+            mouse.isActive = true;
+        });
+        
+        canvas.addEventListener('mouseleave', () => {
+            mouse.isActive = false;
+        });
+        
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
+            createDataBurst(clickX, clickY);
+        });
         
         // Particle system
         class Particle {
@@ -133,8 +154,22 @@
             }
             
             update() {
+                // Mouse attraction
+                if (mouse.isActive) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 100) {
+                        const force = (100 - distance) / 100 * 0.02;
+                        this.vx += (dx / distance) * force;
+                        this.vy += (dy / distance) * force;
+                    }
+                }
+                
                 this.x += this.vx;
                 this.y += this.vy;
+                this.vx *= 0.99; // Damping
+                this.vy *= 0.99;
                 this.life--;
                 
                 // Fade out
@@ -144,6 +179,8 @@
                 if (this.life <= 0) {
                     this.x = Math.random() * canvas.width;
                     this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
                     this.life = this.maxLife;
                 }
             }
@@ -235,32 +272,90 @@
             
             draw() {
                 ctx.save();
-                ctx.globalAlpha = 0.7;
                 
-                const size = 48;
-                const x = this.x - size/2;
-                const y = this.y - size/2;
+                // Check if mouse is hovering
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const isHovered = mouse.isActive && distance < 30;
+                
+                ctx.globalAlpha = isHovered ? 0.9 : 0.7;
+                
+                const size = isHovered ? 56 : 48;
                 
                 // Draw icon background circle
-                ctx.fillStyle = isLight ? 'rgba(59, 130, 246, 0.1)' : 'rgba(96, 165, 250, 0.1)';
+                ctx.fillStyle = isLight ? 
+                    (isHovered ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.1)') : 
+                    (isHovered ? 'rgba(96, 165, 250, 0.2)' : 'rgba(96, 165, 250, 0.1)');
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, size/2, 0, Math.PI * 2);
                 ctx.fill();
                 
                 // Draw border
                 ctx.strokeStyle = isLight ? '#3B82F6' : '#60A5FA';
-                ctx.lineWidth = 2;
+                ctx.lineWidth = isHovered ? 3 : 2;
                 ctx.stroke();
                 
                 // Draw Material Design icon using text
                 ctx.fillStyle = isLight ? '#3B82F6' : '#60A5FA';
-                ctx.font = '24px "Material Symbols Outlined"';
+                ctx.font = `${isHovered ? 28 : 24}px "Material Symbols Outlined"`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(this.iconMap[this.type], this.x, this.y);
                 
                 ctx.restore();
             }
+        }
+        
+        // Data burst system
+        class DataBurst {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.particles = [];
+                for (let i = 0; i < 12; i++) {
+                    const angle = (i / 12) * Math.PI * 2;
+                    this.particles.push({
+                        x: x,
+                        y: y,
+                        vx: Math.cos(angle) * 3,
+                        vy: Math.sin(angle) * 3,
+                        life: 60,
+                        maxLife: 60
+                    });
+                }
+            }
+            
+            update() {
+                this.particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vx *= 0.95;
+                    p.vy *= 0.95;
+                    p.life--;
+                });
+                this.particles = this.particles.filter(p => p.life > 0);
+            }
+            
+            draw() {
+                this.particles.forEach(p => {
+                    ctx.save();
+                    ctx.globalAlpha = p.life / p.maxLife;
+                    ctx.fillStyle = isLight ? '#3B82F6' : '#60A5FA';
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                });
+            }
+            
+            isDead() {
+                return this.particles.length === 0;
+            }
+        }
+        
+        function createDataBurst(x, y) {
+            dataBursts.push(new DataBurst(x, y));
         }
         
         // Create service icons
@@ -294,6 +389,13 @@
                 icon.update();
                 icon.draw();
             });
+            
+            // Update and draw data bursts
+            dataBursts.forEach(burst => {
+                burst.update();
+                burst.draw();
+            });
+            dataBursts = dataBursts.filter(burst => !burst.isDead());
             
             requestAnimationFrame(animate);
         }
