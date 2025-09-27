@@ -10,6 +10,7 @@ A dynamic data-flow inspired professional IT services hero banner implemented us
 - Particle System - Represents data flow, which aligns with digital transformation
 - Service-Aligned Icons - Material Design icons match core service offerings (monitoring, cloud_upload, psychology, smart_toy)
 - Interactive Elements - Mouse hover attraction, click data bursts, responsive service icons
+- Animation Controls - Toggle button to pause/resume animations for accessibility and performance
 - Smooth Animations - Professional, modern feel that builds trust
 - Theme Adaptability - Seamless dark/light mode switching
 - Performance - Hardware accelerated, scales well across devices
@@ -27,10 +28,6 @@ A dynamic data-flow inspired professional IT services hero banner implemented us
 - on hover the icons should stop moving, the hovered item should display title + brief description
 - change animation so icons follow an "infinity loop" path, equally spaced along the track.  
 
-### Toggle Animation Button
-
-- Add a button under "toggle theme" that toggles the animation
-
 ### Performance Optimizations
 
 - Use requestAnimationFrame for smooth 60fps
@@ -45,6 +42,7 @@ A dynamic data-flow inspired professional IT services hero banner implemented us
 
 ## Change Log
 
+- v0.4    added animation toggle button for accessibility and performance control
 - v0.3    implemented interactive elements - mouse hover particle attraction, click data bursts, responsive service icons
 - v0.2    completed service-specific variations - icons now align with core service offerings
 - v0.1    switched to Material Design icons for service offerings (monitoring, cloud_upload, psychology, smart_toy)

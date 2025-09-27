@@ -53,10 +53,15 @@
             line-height: 1.5;
         }
         
-        .theme-toggle {
+        .controls {
             position: absolute;
             top: 20px;
             right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .theme-toggle, .animation-toggle {
             padding: 10px 20px;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -64,6 +69,7 @@
             color: white;
             cursor: pointer;
             backdrop-filter: blur(10px);
+            font-size: 14px;
         }
         
         /* Light theme */
@@ -84,7 +90,7 @@
             color: #6B7280;
         }
         
-        body.light .theme-toggle {
+        body.light .theme-toggle, body.light .animation-toggle {
             background: rgba(0, 0, 0, 0.1);
             border-color: rgba(0, 0, 0, 0.2);
             color: #1F2937;
@@ -103,7 +109,10 @@
         </p>
     </div>
     
-    <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+    <div class="controls">
+        <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+        <button class="animation-toggle" onclick="toggleAnimation()">Pause Animation</button>
+    </div>
     
     <script>
         const canvas = document.getElementById('heroCanvas');
@@ -111,6 +120,8 @@
         let isLight = false;
         let mouse = { x: 0, y: 0, isActive: false };
         let dataBursts = [];
+        let animationPaused = false;
+        let animationId;
         
         // Resize canvas
         function resizeCanvas() {
@@ -397,7 +408,9 @@
             });
             dataBursts = dataBursts.filter(burst => !burst.isDead());
             
-            requestAnimationFrame(animate);
+            if (!animationPaused) {
+                animationId = requestAnimationFrame(animate);
+            }
         }
         
         function toggleTheme() {
@@ -412,6 +425,16 @@
             
             // Resize canvas to update background
             resizeCanvas();
+        }
+        
+        function toggleAnimation() {
+            animationPaused = !animationPaused;
+            const button = document.querySelector('.animation-toggle');
+            button.textContent = animationPaused ? 'Resume Animation' : 'Pause Animation';
+            
+            if (!animationPaused) {
+                animate();
+            }
         }
         
         // Start animation
