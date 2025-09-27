@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.setAttribute('aria-label', label);
       btn.setAttribute('title', label);
       const icon = btn.querySelector('[data-theme-icon]');
-      if (icon) icon.textContent = toDark ? '🌙' : '☀️';
+      if (icon) icon.textContent = toDark ? 'dark_mode' : 'light_mode';
     });
   };
 
