@@ -59,16 +59,22 @@ a:hover { text-decoration: underline }
   position: sticky; top: 0; z-index: 5; background: var(--surface);
   border-bottom: 1px solid var(--border);
 }
-.nav { display: flex; gap: .5rem; align-items: center; }
+.nav { display: flex; gap: .5rem; align-items: center; background: var(--surface); }
 .nav__link {
   padding: .4rem .75rem; border-radius: 999px; color: var(--muted);
   display: flex; align-items: center; gap: .4rem;
+  transition: background-color .2s ease, color .2s ease;
+}
+.nav__link:hover {
+  background: #ECE6F0; color: var(--brand-ink);
+  text-decoration: none;
 }
 .nav__link .material-symbols-outlined {
   font-size: 1.1rem;
 }
 .nav__link.is-active { background: #ECE6F0; color: var(--brand-ink); font-weight: 600; }
 
+[data-theme="dark"] .nav__link:hover { background: rgba(208,188,255,.16); color: var(--brand); }
 [data-theme="dark"] .nav__link.is-active { background: rgba(208,188,255,.16); color: var(--brand); }
 
 .container { max-width: 1120px; margin: 0 auto; padding: 1.25rem; }
