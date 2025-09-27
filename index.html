@@ -1,1 +1,102 @@
-"Hello World" 
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Steve Leve — Reliability-first Modernization</title>
+    <link rel="preconnect" href="https://unpkg.com">
+    <script type="module" src="https://unpkg.com/@material/web@1.5.1/all.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="description"
+        content="Consulting focused on troubleshooting, modernization, and pragmatic reliability under constraint." />
+</head>
+
+<body>
+    <md-top-app-bar class="topbar" data-page="home">
+        <div slot="title">Steve Leve</div>
+        <nav slot="actions" class="nav">
+            <a href="index.html" class="nav__link is-active">Home</a>
+            <a href="services.html" class="nav__link">Services</a>
+            <a href="case-studies.html" class="nav__link">Case Studies</a>
+            <a href="about.html" class="nav__link">About</a>
+            <a href="contact.html" class="nav__link">Contact</a>
+        </nav>
+    </md-top-app-bar>
+
+    <main class="container">
+        <section class="hero surface">
+            <div class="hero__content">
+                <h1>Reliability-first. Pragmatic by design.</h1>
+                <p>
+                    I help agencies and small businesses solve hard technology problems and
+                    ship with confidence — from incident response and observability to cloud
+                    migration and modernization roadmaps.
+                </p>
+                <div class="hero__ctas">
+                    <md-filled-button href="services.html">Explore Services</md-filled-button>
+                    <md-outlined-button href="contact.html">Book a consultation</md-outlined-button>
+                </div>
+            </div>
+        </section>
+
+        <section class="pillars">
+            <article class="card surface">
+                <h3>Reliability & Incident Response</h3>
+                <p>SLO/SLI design, alert hygiene, on-call playbooks, Datadog/CloudWatch/OpsGenie, MTTR reduction.</p>
+                <md-tonal-button href="services.html#reliability">Learn more</md-tonal-button>
+            </article>
+
+            <article class="card surface">
+                <h3>Modernization & Cloud</h3>
+                <p>AWS migration, cost optimization, platform consolidation, DevSecOps & GitOps adoption.</p>
+                <md-tonal-button href="services.html#modernization">Learn more</md-tonal-button>
+            </article>
+
+            <article class="card surface">
+                <h3>Trusted Advisor</h3>
+                <p>Hybrid leadership: hands-on support with strategic roadmaps for founders and CTOs under pressure.</p>
+                <md-tonal-button href="services.html#advisor">Learn more</md-tonal-button>
+            </article>
+
+            <article class="card surface">
+                <h3>AI Readiness</h3>
+                <p>Practical, secure adoption: coding assistance, analytics, and governance aligned to your risk
+                    profile.</p>
+                <md-tonal-button href="services.html#ai">Learn more</md-tonal-button>
+            </article>
+        </section>
+
+        <section class="stripe surface">
+            <div>
+                <h2>What I’m working on</h2>
+                <ul class="checklist">
+                    <li><strong>Reliability Lab</strong> — Kubernetes, Terraform, GitHub Actions, observability-first
+                        patterns.</li>
+                    <li><strong>Consultancy Launch</strong> — Fixed-fee assessments + hybrid advisory/execution.</li>
+                    <li><strong>Cloudflare Experiments</strong> — Headless CMS + Workers/Pages with Terraform &
+                        Wrangler.</li>
+                </ul>
+            </div>
+            <md-filled-button href="about.html">About Steve</md-filled-button>
+        </section>
+
+        <section class="cta surface">
+            <h2>Ready to reduce risk and move faster?</h2>
+            <p>Let’s start with a short conversation and a focused plan.</p>
+            <md-filled-button href="contact.html">Get in touch</md-filled-button>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span>© <span id="y"></span> Steve Leve</span>
+        <span class="spacer"></span>
+        <a href="https://github.com/SteveLeve" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/steve-leve" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:steve.e.leve@gmail.com">Email</a>
+    </footer>
+
+    <script src="site.js" defer></script>
+</body>
+
+</html>
