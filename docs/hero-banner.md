@@ -27,14 +27,10 @@ A dynamic data-flow inspired professional IT services hero banner implemented us
 
 ### Merging Layouts
 
-- inspect index.html, import page structure and content for demonstration. "<section class="hero surface">" contains the current hero content to merge.
-- use canvas as fixed background behind opaque material design panels
-- naming in current version is preferred: hero-content, hero-title, hero-subtitle, hero-description
-
-### Modularize
-
-- changes to support integraton and code reuse across multiple pages.
-- extract CSS and JS into separate files
+- import styles and content from index.html into data_flow_canvas_hero.html to demonstrate successful concept integration.
+- ensure the hero canvas is behind the page content in z-index so that page content can be selected and interacted with.
+- the light/dark mode and animation play/pause controls should be right aligned in the menu bar.  
+- once satisfied with the result proceed to apply site wide.
 
 ## Change Log
 
