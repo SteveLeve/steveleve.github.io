@@ -85,15 +85,16 @@ a:hover { text-decoration: underline }
   box-shadow: var(--shadow);
 }
 
-.hero {
+.hero-surface {
   margin: 1.5rem 0 1.75rem; padding: 2.25rem;
   background: radial-gradient(1200px 600px at 10% -10%, #ECE6F0 0%, transparent 55%) , var(--surface);
 }
-[data-theme="dark"] .hero {
+[data-theme="dark"] .hero-surface {
   background: radial-gradient(1200px 600px at 10% -10%, rgba(208,188,255,.18) 0%, transparent 55%), var(--surface);
 }
-.hero h1 { margin: 0 0 .5rem; letter-spacing: -0.02em; font-size: clamp(1.6rem, 2.5vw + 1rem, 2.4rem); }
-.hero p { color: var(--muted); margin: .25rem 0 1rem; max-width: 70ch; }
+.hero-title { margin: 0 0 .5rem; letter-spacing: -0.02em; font-size: clamp(1.6rem, 2.5vw + 1rem, 2.4rem); }
+.hero-subtitle { color: var(--muted); margin: .25rem 0 1rem; max-width: 70ch; font-size: 1.1rem; font-weight: 500; }
+.hero-content { color: var(--muted); margin: .25rem 0 1rem; max-width: 70ch; }
 .hero-ctas md-filled-button,
 .hero-ctas md-outlined-button {
     margin-right: .5rem
