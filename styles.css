@@ -94,7 +94,10 @@ a:hover { text-decoration: underline }
 }
 .hero h1 { margin: 0 0 .5rem; letter-spacing: -0.02em; font-size: clamp(1.6rem, 2.5vw + 1rem, 2.4rem); }
 .hero p { color: var(--muted); margin: .25rem 0 1rem; max-width: 70ch; }
-.hero__ctas md-filled-button, .hero__ctas md-outlined-button { margin-right: .5rem }
+.hero-ctas md-filled-button,
+.hero-ctas md-outlined-button {
+    margin-right: .5rem
+}
 
 .pillars {
   margin: 1.75rem 0;
