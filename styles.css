@@ -212,3 +212,7 @@ body, .surface, .stripe, .cta, .page-intro, .footer, .topbar, .card {
   transition: background-color .3s ease, color .3s ease;
 }
 .footer .spacer { flex: 1 }
+
+div[slot="title"] {
+    display: none;
+}
