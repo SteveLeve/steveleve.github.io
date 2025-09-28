@@ -25,6 +25,12 @@ A dynamic data-flow inspired professional IT services hero banner implemented us
 
 ## Roadmap
 
+### Merging Layouts
+
+- inspect index.html, import page structure and content for demonstration. "<section class="hero surface">" contains the current hero content to merge.
+- use canvas as fixed background behind opaque material design panels
+- naming in current version is preferred: hero-content, hero-title, hero-subtitle, hero-description
+
 ### Modularize
 
 - changes to support integraton and code reuse across multiple pages.

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Flow Hero</title>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    <link rel="stylesheet" href="hero-canvas.css">
     <style>
         body {
             margin: 0;
@@ -12,12 +13,7 @@
             background: #0F1419;
             color: #E5E7EB;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            overflow: hidden;
-        }
-        
-        #heroCanvas {
-            display: block;
-            background: linear-gradient(135deg, #0F1419 0%, #1F2937 50%, #111827 100%);
+            position: relative;
         }
         
         .hero-content {
@@ -53,64 +49,50 @@
             line-height: 1.5;
         }
         
-        .controls {
+        .hero-content {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 10px;
+            top: 50%;
+            left: 8%;
+            transform: translateY(-50%);
+            z-index: 10;
+            max-width: 500px;
         }
         
-        .theme-toggle, .animation-toggle {
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            transition: background-color 0.2s ease;
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #60A5FA, #34D399, #FBBF24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
         }
         
-        .theme-toggle:hover, .animation-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #9CA3AF;
+            margin-bottom: 1rem;
+            line-height: 1.6;
         }
         
-        .material-symbols-outlined {
-            font-size: 24px;
+        .hero-description {
+            font-size: 1rem;
+            color: #6B7280;
+            line-height: 1.5;
         }
         
-        /* Light theme */
-        body.light {
+        [data-theme="light"] body {
             background: #F9FAFB;
             color: #1F2937;
         }
         
-        body.light #heroCanvas {
-            background: linear-gradient(135deg, #F9FAFB 0%, #E5E7EB 50%, #F3F4F6 100%);
-        }
-        
-        body.light .hero-subtitle {
+        [data-theme="light"] .hero-subtitle {
             color: #4B5563;
         }
         
-        body.light .hero-description {
+        [data-theme="light"] .hero-description {
             color: #6B7280;
-        }
-        
-        body.light .theme-toggle, body.light .animation-toggle {
-            background: rgba(0, 0, 0, 0.1);
-            border-color: rgba(0, 0, 0, 0.2);
-            color: #1F2937;
-        }
-        
-        body.light .theme-toggle:hover, body.light .animation-toggle:hover {
-            background: rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -128,342 +110,13 @@
     
     <div class="controls">
         <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Switch to dark mode">
-            <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
+            <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
         </button>
         <button class="animation-toggle" onclick="toggleAnimation()" aria-label="Toggle animation" title="Pause animation">
             <span class="material-symbols-outlined" id="animation-icon">pause</span>
         </button>
     </div>
     
-    <script>
-        const canvas = document.getElementById('heroCanvas');
-        const ctx = canvas.getContext('2d');
-        let isLight = false;
-        let mouse = { x: 0, y: 0, isActive: false };
-        let dataBursts = [];
-        let animationPaused = false;
-        let animationId;
-        let particlePool = [];
-        let maxParticles = 100;
-        let performanceMode = 'auto';
-        const particles = [];
-
-        // Resize canvas and adjust performance
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            
-            // Responsive particle count based on screen size
-            const screenArea = canvas.width * canvas.height;
-            if (screenArea < 500000) { // Mobile
-                maxParticles = 40;
-            } else if (screenArea < 1000000) { // Tablet
-                maxParticles = 70;
-            } else { // Desktop
-                maxParticles = 100;
-            }
-            
-            // Adjust existing particles array if initialized
-            if (particles.length > 0) {
-                while (particles.length > maxParticles) {
-                    const particle = particles.pop();
-                    particlePool.push(particle);
-                }
-                while (particles.length < maxParticles && particlePool.length > 0) {
-                    particles.push(particlePool.pop());
-                }
-            }
-        }
-        
-        // Mouse interaction
-        canvas.addEventListener('mousemove', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            mouse.x = e.clientX - rect.left;
-            mouse.y = e.clientY - rect.top;
-            mouse.isActive = true;
-        });
-        
-        canvas.addEventListener('mouseleave', () => {
-            mouse.isActive = false;
-        });
-        
-        canvas.addEventListener('click', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            const clickY = e.clientY - rect.top;
-            createDataBurst(clickX, clickY);
-        });
-        
-        // Particle system with pooling
-        class Particle {
-            constructor(x, y) {
-                this.reset(x, y);
-            }
-            
-            reset(x, y) {
-                this.x = x || Math.random() * canvas.width;
-                this.y = y || Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 3 + 1;
-                this.life = Math.random() * 200 + 100;
-                this.maxLife = this.life;
-                this.type = Math.random() > 0.7 ? 'data' : 'node';
-            }
-            
-            update() {
-                // Mouse attraction
-                if (mouse.isActive) {
-                    const dx = mouse.x - this.x;
-                    const dy = mouse.y - this.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < 100) {
-                        const force = (100 - distance) / 100 * 0.02;
-                        this.vx += (dx / distance) * force;
-                        this.vy += (dy / distance) * force;
-                    }
-                }
-                
-                this.x += this.vx;
-                this.y += this.vy;
-                this.vx *= 0.99; // Damping
-                this.vy *= 0.99;
-                this.life--;
-                
-                // Fade out
-                this.alpha = this.life / this.maxLife;
-                
-                // Respawn using reset method
-                if (this.life <= 0) {
-                    this.reset();
-                }
-            }
-            
-            draw() {
-                const colors = isLight ? 
-                    ['#3B82F6', '#10B981', '#F59E0B', '#EF4444'] :
-                    ['#60A5FA', '#34D399', '#FBBF24', '#F87171'];
-                
-                ctx.save();
-                ctx.globalAlpha = this.alpha * 0.8;
-                
-                if (this.type === 'data') {
-                    // Data packet
-                    ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
-                    ctx.fillRect(this.x - this.size/2, this.y - this.size/2, this.size, this.size);
-                } else {
-                    // Network node
-                    ctx.strokeStyle = colors[0];
-                    ctx.lineWidth = 2;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.stroke();
-                }
-                
-                ctx.restore();
-            }
-        }
-        
-        // Connection lines
-        class Connection {
-            constructor(p1, p2) {
-                this.p1 = p1;
-                this.p2 = p2;
-                this.strength = Math.random();
-            }
-            
-            draw() {
-                const distance = Math.sqrt(
-                    Math.pow(this.p2.x - this.p1.x, 2) + 
-                    Math.pow(this.p2.y - this.p1.y, 2)
-                );
-                
-                if (distance < 150) {
-                    ctx.save();
-                    ctx.globalAlpha = (1 - distance / 150) * 0.3 * this.strength;
-                    ctx.strokeStyle = isLight ? '#3B82F6' : '#60A5FA';
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(this.p1.x, this.p1.y);
-                    ctx.lineTo(this.p2.x, this.p2.y);
-                    ctx.stroke();
-                    ctx.restore();
-                }
-            }
-        }
-        
-        // Initialize particles with pooling
-        function initializeParticles() {
-            particles.length = 0;
-            particlePool.length = 0;
-            
-            for (let i = 0; i < maxParticles; i++) {
-                particles.push(new Particle(
-                    Math.random() * canvas.width,
-                    Math.random() * canvas.height
-                ));
-            }
-        }
-        
-        resizeCanvas();
-        initializeParticles();
-        window.addEventListener('resize', resizeCanvas);
-        
-
-        
-        // Data burst system
-        class DataBurst {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.particles = [];
-                for (let i = 0; i < 12; i++) {
-                    const angle = (i / 12) * Math.PI * 2;
-                    this.particles.push({
-                        x: x,
-                        y: y,
-                        vx: Math.cos(angle) * 3,
-                        vy: Math.sin(angle) * 3,
-                        life: 60,
-                        maxLife: 60
-                    });
-                }
-            }
-            
-            update() {
-                this.particles.forEach(p => {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.vx *= 0.95;
-                    p.vy *= 0.95;
-                    p.life--;
-                });
-                this.particles = this.particles.filter(p => p.life > 0);
-            }
-            
-            draw() {
-                this.particles.forEach(p => {
-                    ctx.save();
-                    ctx.globalAlpha = p.life / p.maxLife;
-                    ctx.fillStyle = isLight ? '#3B82F6' : '#60A5FA';
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore();
-                });
-            }
-            
-            isDead() {
-                return this.particles.length === 0;
-            }
-        }
-        
-        function createDataBurst(x, y) {
-            dataBursts.push(new DataBurst(x, y));
-        }
-        
-        // Performance monitoring
-        let frameCount = 0;
-        let lastFpsCheck = Date.now();
-        let fps = 60;
-        
-        function checkPerformance() {
-            frameCount++;
-            const now = Date.now();
-            if (now - lastFpsCheck >= 1000) {
-                fps = frameCount;
-                frameCount = 0;
-                lastFpsCheck = now;
-                
-                // Auto-adjust quality for lower-end devices
-                if (performanceMode === 'auto') {
-                    if (fps < 30 && maxParticles > 30) {
-                        maxParticles = Math.max(30, maxParticles - 10);
-                        while (particles.length > maxParticles) {
-                            particlePool.push(particles.pop());
-                        }
-                    } else if (fps > 55 && maxParticles < 100) {
-                        maxParticles = Math.min(100, maxParticles + 5);
-                        while (particles.length < maxParticles && particlePool.length > 0) {
-                            particles.push(particlePool.pop());
-                        }
-                    }
-                }
-            }
-        }
-        
-
-        
-        // Animation loop with performance monitoring
-        function animate() {
-            checkPerformance();
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Update and draw particles
-            particles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
-            
-            // Draw connections (optimized for mobile)
-            const connectionLimit = canvas.width < 768 ? 200 : 500;
-            let connectionCount = 0;
-            for (let i = 0; i < particles.length && connectionCount < connectionLimit; i++) {
-                for (let j = i + 1; j < particles.length && connectionCount < connectionLimit; j++) {
-                    const connection = new Connection(particles[i], particles[j]);
-                    connection.draw();
-                    connectionCount++;
-                }
-            }
-            
-
-            
-            // Update and draw data bursts
-            dataBursts.forEach(burst => {
-                burst.update();
-                burst.draw();
-            });
-            dataBursts = dataBursts.filter(burst => !burst.isDead());
-            
-            if (!animationPaused) {
-                animationId = requestAnimationFrame(animate);
-            }
-        }
-        
-        function toggleTheme() {
-            isLight = !isLight;
-            document.body.classList.toggle('light', isLight);
-            
-            // Update theme icon and tooltip
-            const themeIcon = document.getElementById('theme-icon');
-            const themeButton = document.querySelector('.theme-toggle');
-            themeIcon.textContent = isLight ? 'dark_mode' : 'light_mode';
-            themeButton.title = isLight ? 'Switch to light mode' : 'Switch to dark mode';
-            
-            // Resize canvas to update background
-            resizeCanvas();
-        }
-        
-        function toggleAnimation() {
-            animationPaused = !animationPaused;
-            const animationIcon = document.getElementById('animation-icon');
-            const animationButton = document.querySelector('.animation-toggle');
-            animationIcon.textContent = animationPaused ? 'play_arrow' : 'pause';
-            animationButton.title = animationPaused ? 'Resume animation' : 'Pause animation';
-            
-            if (!animationPaused) {
-                animate();
-            }
-        }
-        
-        // Start animation
-        animate();
-        
-        // Add performance control for lower-end devices
-        if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) {
-            maxParticles = Math.min(maxParticles, 50);
-            initializeParticles();
-        }
-    </script>
+    <script src="hero-canvas.js"></script>
 </body>
 </html>
