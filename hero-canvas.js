@@ -59,23 +59,31 @@ class HeroCanvas {
     }
     
     setupEventListeners() {
-        this.canvas.addEventListener('mousemove', (e) => {
-            const rect = this.canvas.getBoundingClientRect();
-            this.mouse.x = e.clientX - rect.left;
-            this.mouse.y = e.clientY - rect.top;
+        this.handlePointerMove = (event) => {
+            this.mouse.x = event.clientX;
+            this.mouse.y = event.clientY;
             this.mouse.isActive = true;
-        });
-        
-        this.canvas.addEventListener('mouseleave', () => {
+        };
+
+        this.handlePointerLeave = () => {
             this.mouse.isActive = false;
+        };
+
+        this.handleClick = (event) => {
+            if (event.defaultPrevented) return;
+            const ignore = event.target.closest('[data-animation-toggle], .theme-toggle');
+            if (ignore) return;
+            this.createDataBurst(event.clientX, event.clientY);
+        };
+
+        window.addEventListener('mousemove', this.handlePointerMove);
+        window.addEventListener('mouseout', (event) => {
+            if (!event.relatedTarget || event.relatedTarget === document.documentElement) {
+                this.handlePointerLeave();
+            }
         });
-        
-        this.canvas.addEventListener('click', (e) => {
-            const rect = this.canvas.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            const clickY = e.clientY - rect.top;
-            this.createDataBurst(clickX, clickY);
-        });
+        window.addEventListener('blur', this.handlePointerLeave);
+        window.addEventListener('click', this.handleClick);
     }
     
     setupThemeSync() {
@@ -173,17 +181,25 @@ class HeroCanvas {
     
     toggleAnimation() {
         this.animationPaused = !this.animationPaused;
-        const animationIcon = document.getElementById('animation-icon');
-        const animationButton = document.querySelector('.animation-toggle');
-        if (animationIcon) {
-            animationIcon.textContent = this.animationPaused ? 'play_arrow' : 'pause';
-        }
-        if (animationButton) {
-            animationButton.title = this.animationPaused ? 'Resume animation' : 'Pause animation';
-        }
-        
+        this.updateAnimationToggleUI();
+
         if (!this.animationPaused) {
             this.animate();
+        }
+    }
+
+    updateAnimationToggleUI() {
+        const animationButton = document.querySelector('[data-animation-toggle]');
+        const animationIcon = animationButton?.querySelector('[data-animation-icon]');
+        const label = this.animationPaused ? 'Resume animation' : 'Pause animation';
+
+        if (animationButton) {
+            animationButton.setAttribute('aria-label', label);
+            animationButton.setAttribute('title', label);
+        }
+
+        if (animationIcon) {
+            animationIcon.textContent = this.animationPaused ? 'play_arrow' : 'pause';
         }
     }
 }
@@ -329,78 +345,31 @@ class DataBurst {
 // Global instance and functions
 let heroCanvas;
 
-function createControls() {
-    const controlsDiv = document.createElement('div');
-    controlsDiv.className = 'controls';
-    
-    const themeButton = document.createElement('button');
-    themeButton.className = 'theme-toggle';
-    themeButton.setAttribute('aria-label', 'Toggle theme');
-    themeButton.setAttribute('title', 'Switch to dark mode');
-    themeButton.onclick = toggleTheme;
-    
-    const themeIcon = document.createElement('span');
-    themeIcon.className = 'material-symbols-outlined';
-    themeIcon.id = 'theme-icon';
-    themeIcon.textContent = 'dark_mode';
-    themeButton.appendChild(themeIcon);
-    
-    const animationButton = document.createElement('button');
-    animationButton.className = 'animation-toggle';
-    animationButton.setAttribute('aria-label', 'Toggle animation');
-    animationButton.setAttribute('title', 'Pause animation');
-    animationButton.onclick = toggleAnimation;
-    
-    const animationIcon = document.createElement('span');
-    animationIcon.className = 'material-symbols-outlined';
-    animationIcon.id = 'animation-icon';
-    animationIcon.textContent = 'pause';
-    animationButton.appendChild(animationIcon);
-    
-    controlsDiv.appendChild(themeButton);
-    controlsDiv.appendChild(animationButton);
-    document.body.appendChild(controlsDiv);
-}
-
 function toggleAnimation() {
     if (heroCanvas) {
         heroCanvas.toggleAnimation();
     }
 }
 
-function toggleTheme() {
-    const root = document.documentElement;
-    const current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-    const next = current === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    
-    // Update theme icon
-    const themeIcon = document.getElementById('theme-icon');
-    const themeButton = document.querySelector('.theme-toggle');
-    if (themeIcon) {
-        themeIcon.textContent = next === 'light' ? 'dark_mode' : 'light_mode';
-    }
-    if (themeButton) {
-        themeButton.title = next === 'light' ? 'Switch to dark mode' : 'Switch to light mode';
-    }
-}
-
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    createControls();
     heroCanvas = new HeroCanvas();
-    
-    // Initialize theme
+
+    const animationToggle = document.querySelector('[data-animation-toggle]');
+    if (animationToggle) {
+        animationToggle.addEventListener('click', (event) => {
+            event.preventDefault();
+            toggleAnimation();
+        });
+    }
+
     const root = document.documentElement;
     const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     if (!root.getAttribute('data-theme')) {
         root.setAttribute('data-theme', systemTheme);
     }
-    
-    // Update initial theme icon
-    const currentTheme = root.getAttribute('data-theme');
-    const themeIcon = document.getElementById('theme-icon');
-    if (themeIcon) {
-        themeIcon.textContent = currentTheme === 'light' ? 'dark_mode' : 'light_mode';
+
+    if (heroCanvas) {
+        heroCanvas.updateAnimationToggleUI();
     }
 });

@@ -59,7 +59,22 @@ a:hover { text-decoration: underline }
   position: sticky; top: 0; z-index: 5; background: var(--surface);
   border-bottom: 1px solid var(--border);
 }
-.nav { display: flex; gap: .5rem; align-items: center; background: var(--surface); }
+.nav {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  background: var(--surface);
+}
+.nav__links {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+.nav__controls {
+  display: flex;
+  gap: .35rem;
+  margin-left: auto;
+}
 .nav__link {
   padding: .4rem .75rem; border-radius: 999px; color: var(--muted);
   display: flex; align-items: center; gap: .4rem;
@@ -78,6 +93,7 @@ a:hover { text-decoration: underline }
 [data-theme="dark"] .nav__link.is-active { background: rgba(208,188,255,.16); color: var(--brand); }
 
 .container { max-width: 1120px; margin: 0 auto; padding: 1.25rem; }
+main, .footer { position: relative; z-index: 1; }
 
 .surface {
   background: var(--surface);
@@ -186,7 +202,8 @@ a:hover { text-decoration: underline }
 .footer__link .material-symbols-outlined {
   font-size: 1.1rem;
 }
-.theme-toggle {
+.theme-toggle,
+.animation-toggle {
   border: 0;
   background: none;
   color: var(--muted);
@@ -200,17 +217,22 @@ a:hover { text-decoration: underline }
   transition: background-color .2s ease, color .2s ease;
 }
 .theme-toggle:hover,
-.theme-toggle:focus-visible {
+.theme-toggle:focus-visible,
+.animation-toggle:hover,
+.animation-toggle:focus-visible {
   background: rgba(103,80,164,.12);
   color: var(--brand-ink);
   outline: none;
 }
 [data-theme="dark"] .theme-toggle:hover,
-[data-theme="dark"] .theme-toggle:focus-visible {
+[data-theme="dark"] .theme-toggle:focus-visible,
+[data-theme="dark"] .animation-toggle:hover,
+[data-theme="dark"] .animation-toggle:focus-visible {
   background: rgba(208,188,255,.12);
   color: var(--brand);
 }
-.theme-toggle__icon { line-height: 1; font-size: 1.2rem; }
+.theme-toggle__icon,
+.animation-toggle__icon { line-height: 1; font-size: 1.2rem; }
 
 body, .surface, .stripe, .cta, .page-intro, .footer, .topbar, .card {
   transition: background-color .3s ease, color .3s ease;
