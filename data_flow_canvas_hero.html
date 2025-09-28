@@ -122,16 +122,37 @@
         let dataBursts = [];
         let animationPaused = false;
         let animationId;
+        let particlePool = [];
+        let maxParticles = 100;
+        let performanceMode = 'auto';
+        const particles = [];
 
-        
-        // Resize canvas
+        // Resize canvas and adjust performance
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            
+            // Responsive particle count based on screen size
+            const screenArea = canvas.width * canvas.height;
+            if (screenArea < 500000) { // Mobile
+                maxParticles = 40;
+            } else if (screenArea < 1000000) { // Tablet
+                maxParticles = 70;
+            } else { // Desktop
+                maxParticles = 100;
+            }
+            
+            // Adjust existing particles array if initialized
+            if (particles.length > 0) {
+                while (particles.length > maxParticles) {
+                    const particle = particles.pop();
+                    particlePool.push(particle);
+                }
+                while (particles.length < maxParticles && particlePool.length > 0) {
+                    particles.push(particlePool.pop());
+                }
+            }
         }
-        
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
         
         // Mouse interaction
         canvas.addEventListener('mousemove', (e) => {
@@ -152,11 +173,15 @@
             createDataBurst(clickX, clickY);
         });
         
-        // Particle system
+        // Particle system with pooling
         class Particle {
             constructor(x, y) {
-                this.x = x;
-                this.y = y;
+                this.reset(x, y);
+            }
+            
+            reset(x, y) {
+                this.x = x || Math.random() * canvas.width;
+                this.y = y || Math.random() * canvas.height;
                 this.vx = (Math.random() - 0.5) * 0.5;
                 this.vy = (Math.random() - 0.5) * 0.5;
                 this.size = Math.random() * 3 + 1;
@@ -187,13 +212,9 @@
                 // Fade out
                 this.alpha = this.life / this.maxLife;
                 
-                // Respawn
+                // Respawn using reset method
                 if (this.life <= 0) {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.vx = (Math.random() - 0.5) * 0.5;
-                    this.vy = (Math.random() - 0.5) * 0.5;
-                    this.life = this.maxLife;
+                    this.reset();
                 }
             }
             
@@ -250,14 +271,22 @@
             }
         }
         
-        // Initialize particles
-        const particles = [];
-        for (let i = 0; i < 100; i++) {
-            particles.push(new Particle(
-                Math.random() * canvas.width,
-                Math.random() * canvas.height
-            ));
+        // Initialize particles with pooling
+        function initializeParticles() {
+            particles.length = 0;
+            particlePool.length = 0;
+            
+            for (let i = 0; i < maxParticles; i++) {
+                particles.push(new Particle(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height
+                ));
+            }
         }
+        
+        resizeCanvas();
+        initializeParticles();
+        window.addEventListener('resize', resizeCanvas);
         
 
         
@@ -312,10 +341,41 @@
             dataBursts.push(new DataBurst(x, y));
         }
         
+        // Performance monitoring
+        let frameCount = 0;
+        let lastFpsCheck = Date.now();
+        let fps = 60;
+        
+        function checkPerformance() {
+            frameCount++;
+            const now = Date.now();
+            if (now - lastFpsCheck >= 1000) {
+                fps = frameCount;
+                frameCount = 0;
+                lastFpsCheck = now;
+                
+                // Auto-adjust quality for lower-end devices
+                if (performanceMode === 'auto') {
+                    if (fps < 30 && maxParticles > 30) {
+                        maxParticles = Math.max(30, maxParticles - 10);
+                        while (particles.length > maxParticles) {
+                            particlePool.push(particles.pop());
+                        }
+                    } else if (fps > 55 && maxParticles < 100) {
+                        maxParticles = Math.min(100, maxParticles + 5);
+                        while (particles.length < maxParticles && particlePool.length > 0) {
+                            particles.push(particlePool.pop());
+                        }
+                    }
+                }
+            }
+        }
+        
 
         
-        // Animation loop
+        // Animation loop with performance monitoring
         function animate() {
+            checkPerformance();
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             // Update and draw particles
@@ -324,11 +384,14 @@
                 particle.draw();
             });
             
-            // Draw connections between nearby particles
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
+            // Draw connections (optimized for mobile)
+            const connectionLimit = canvas.width < 768 ? 200 : 500;
+            let connectionCount = 0;
+            for (let i = 0; i < particles.length && connectionCount < connectionLimit; i++) {
+                for (let j = i + 1; j < particles.length && connectionCount < connectionLimit; j++) {
                     const connection = new Connection(particles[i], particles[j]);
                     connection.draw();
+                    connectionCount++;
                 }
             }
             
@@ -368,6 +431,12 @@
         
         // Start animation
         animate();
+        
+        // Add performance control for lower-end devices
+        if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) {
+            maxParticles = Math.min(maxParticles, 50);
+            initializeParticles();
+        }
     </script>
 </body>
 </html>
