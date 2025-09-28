@@ -329,6 +329,39 @@ class DataBurst {
 // Global instance and functions
 let heroCanvas;
 
+function createControls() {
+    const controlsDiv = document.createElement('div');
+    controlsDiv.className = 'controls';
+    
+    const themeButton = document.createElement('button');
+    themeButton.className = 'theme-toggle';
+    themeButton.setAttribute('aria-label', 'Toggle theme');
+    themeButton.setAttribute('title', 'Switch to dark mode');
+    themeButton.onclick = toggleTheme;
+    
+    const themeIcon = document.createElement('span');
+    themeIcon.className = 'material-symbols-outlined';
+    themeIcon.id = 'theme-icon';
+    themeIcon.textContent = 'dark_mode';
+    themeButton.appendChild(themeIcon);
+    
+    const animationButton = document.createElement('button');
+    animationButton.className = 'animation-toggle';
+    animationButton.setAttribute('aria-label', 'Toggle animation');
+    animationButton.setAttribute('title', 'Pause animation');
+    animationButton.onclick = toggleAnimation;
+    
+    const animationIcon = document.createElement('span');
+    animationIcon.className = 'material-symbols-outlined';
+    animationIcon.id = 'animation-icon';
+    animationIcon.textContent = 'pause';
+    animationButton.appendChild(animationIcon);
+    
+    controlsDiv.appendChild(themeButton);
+    controlsDiv.appendChild(animationButton);
+    document.body.appendChild(controlsDiv);
+}
+
 function toggleAnimation() {
     if (heroCanvas) {
         heroCanvas.toggleAnimation();
@@ -354,6 +387,7 @@ function toggleTheme() {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    createControls();
     heroCanvas = new HeroCanvas();
     
     // Initialize theme
