@@ -122,7 +122,7 @@
         let dataBursts = [];
         let animationPaused = false;
         let animationId;
-        let anyIconHovered = false;
+
         
         // Resize canvas
         function resizeCanvas() {
@@ -259,133 +259,7 @@
             ));
         }
         
-        // Floating service icons
-        class ServiceIcon {
-            constructor(pathOffset, type) {
-                this.pathOffset = pathOffset;
-                this.type = type;
-                this.time = pathOffset;
-                this.frequency = 0.008;
-                this.isHovered = false;
-                this.iconMap = {
-                    'monitoring': 'monitoring',
-                    'cloud': 'cloud_upload', 
-                    'advisor': 'psychology',
-                    'ai': 'smart_toy'
-                };
-                this.descriptions = {
-                    'monitoring': { title: 'Reliability & Incident Response', desc: 'SLO/SLI design, alert hygiene, MTTR reduction' },
-                    'cloud': { title: 'Modernization & Cloud', desc: 'AWS migration, cost optimization, DevSecOps' },
-                    'advisor': { title: 'Trusted Advisor', desc: 'Strategic roadmaps for founders and CTOs' },
-                    'ai': { title: 'AI Readiness', desc: 'Secure adoption and governance frameworks' }
-                };
-                this.updatePosition();
-            }
-            
-            update() {
-                // Check if mouse is hovering
-                const dx = mouse.x - this.x;
-                const dy = mouse.y - this.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                this.isHovered = mouse.isActive && distance < 30;
-                
-                // Only update position if no icons are hovered
-                if (!anyIconHovered) {
-                    this.time += this.frequency;
-                    this.updatePosition();
-                }
-            }
-            
-            updatePosition() {
-                // Infinity loop path
-                const centerX = canvas.width * 0.82;
-                const centerY = canvas.height * 0.5;
-                const scale = 120;
-                
-                const t = this.time;
-                this.x = centerX + scale * Math.cos(t) / (1 + Math.sin(t) * Math.sin(t));
-                this.y = centerY + scale * Math.sin(t) * Math.cos(t) / (1 + Math.sin(t) * Math.sin(t));
-            }
-            
-            draw() {
-                ctx.save();
-                
-                ctx.globalAlpha = this.isHovered ? 0.9 : 0.7;
-                
-                const size = this.isHovered ? 56 : 48;
-                
-                // Draw icon background circle
-                ctx.fillStyle = isLight ? 
-                    (this.isHovered ? 'rgba(59, 130, 246, 0.2)' : 'rgba(59, 130, 246, 0.1)') : 
-                    (this.isHovered ? 'rgba(96, 165, 250, 0.2)' : 'rgba(96, 165, 250, 0.1)');
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, size/2, 0, Math.PI * 2);
-                ctx.fill();
-                
-                // Draw border
-                ctx.strokeStyle = isLight ? '#3B82F6' : '#60A5FA';
-                ctx.lineWidth = this.isHovered ? 3 : 2;
-                ctx.stroke();
-                
-                // Draw Material Design icon using text
-                ctx.fillStyle = isLight ? '#3B82F6' : '#60A5FA';
-                ctx.font = `${this.isHovered ? 28 : 24}px "Material Symbols Outlined"`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(this.iconMap[this.type], this.x, this.y);
-                
-                // Draw tooltip on hover
-                if (this.isHovered) {
-                    this.drawTooltip();
-                }
-                
-                ctx.restore();
-            }
-            
-            drawTooltip() {
-                const info = this.descriptions[this.type];
-                const padding = 12;
-                const lineHeight = 18;
-                
-                // Measure text
-                ctx.font = '14px system-ui, sans-serif';
-                const titleWidth = ctx.measureText(info.title).width;
-                ctx.font = '12px system-ui, sans-serif';
-                const descWidth = ctx.measureText(info.desc).width;
-                const maxWidth = Math.max(titleWidth, descWidth);
-                
-                const tooltipWidth = maxWidth + padding * 2;
-                const tooltipHeight = 50;
-                
-                // Position tooltip
-                let tooltipX = this.x + 40;
-                let tooltipY = this.y - tooltipHeight / 2;
-                
-                // Keep tooltip on screen
-                if (tooltipX + tooltipWidth > canvas.width - 10) {
-                    tooltipX = this.x - tooltipWidth - 40;
-                }
-                
-                // Draw tooltip background
-                ctx.fillStyle = isLight ? 'rgba(255, 255, 255, 0.95)' : 'rgba(30, 30, 30, 0.95)';
-                ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)';
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.roundRect(tooltipX, tooltipY, tooltipWidth, tooltipHeight, 8);
-                ctx.fill();
-                ctx.stroke();
-                
-                // Draw text
-                ctx.fillStyle = isLight ? '#1F2937' : '#E5E7EB';
-                ctx.font = 'bold 14px system-ui, sans-serif';
-                ctx.textAlign = 'left';
-                ctx.fillText(info.title, tooltipX + padding, tooltipY + padding + 14);
-                
-                ctx.fillStyle = isLight ? '#6B7280' : '#9CA3AF';
-                ctx.font = '12px system-ui, sans-serif';
-                ctx.fillText(info.desc, tooltipX + padding, tooltipY + padding + 32);
-            }
-        }
+
         
         // Data burst system
         class DataBurst {
@@ -438,13 +312,7 @@
             dataBursts.push(new DataBurst(x, y));
         }
         
-        // Create service icons with spacing to avoid center overlap
-        const serviceIcons = [
-            new ServiceIcon(0, 'monitoring'),
-            new ServiceIcon(Math.PI * 0.6, 'cloud'),
-            new ServiceIcon(Math.PI, 'advisor'),
-            new ServiceIcon(Math.PI * 1.4, 'ai')
-        ];
+
         
         // Animation loop
         function animate() {
@@ -464,19 +332,7 @@
                 }
             }
             
-            // Check if any icon is hovered
-            anyIconHovered = serviceIcons.some(icon => {
-                const dx = mouse.x - icon.x;
-                const dy = mouse.y - icon.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                return mouse.isActive && distance < 30;
-            });
-            
-            // Update and draw service icons
-            serviceIcons.forEach(icon => {
-                icon.update();
-                icon.draw();
-            });
+
             
             // Update and draw data bursts
             dataBursts.forEach(burst => {
@@ -494,8 +350,7 @@
             isLight = !isLight;
             document.body.classList.toggle('light', isLight);
             
-            // Update service icon positions on resize
-            serviceIcons.forEach(icon => icon.updatePosition());
+
             
             // Resize canvas to update background
             resizeCanvas();

@@ -8,9 +8,7 @@ A dynamic data-flow inspired professional IT services hero banner implemented us
 
 - Dynamic Network Visualization - Perfect metaphor for systems architecture and API integrations
 - Particle System - Represents data flow, which aligns with digital transformation
-- Service-Aligned Icons - Material Design icons match core service offerings (monitoring, cloud_upload, psychology, smart_toy)
-- Interactive Elements - Mouse hover attraction, click data bursts, responsive service icons
-- Refined Icon Behaviors - Infinity loop paths, hover tooltips with service descriptions, motion pause on hover
+- Interactive Elements - Mouse hover particle attraction, click data bursts
 - Animation Controls - Toggle button to pause/resume animations for accessibility and performance
 - Smooth Animations - Professional, modern feel that builds trust
 - Theme Adaptability - Seamless dark/light mode switching
@@ -38,6 +36,7 @@ A dynamic data-flow inspired professional IT services hero banner implemented us
 
 ## Change Log
 
+- v0.6    simplified design - removed service icons in favor of clean particle system focus
 - v0.5    refined icon behaviors - infinity loop paths, hover tooltips with service descriptions, motion pause on hover
 - v0.4    added animation toggle button for accessibility and performance control
 - v0.3    implemented interactive elements - mouse hover particle attraction, click data bursts, responsive service icons
