@@ -24,7 +24,15 @@ A dynamic data-flow inspired professional IT services hero banner implemented us
 
 ## Roadmap
 
-✅ **All roadmap items completed!**
+### Design and Style Changes
+
+- Change "Toggle Theme" to Material Icons (Light/Dark mode)
+- Change "Pause Animation" to Material Icons (Play/Pause)
+
+### Modularize
+
+- changes to support integraton and code reuse across multiple pages.
+- extract CSS and JS into separate files
 
 ## Change Log
 
