@@ -127,10 +127,10 @@
     </div>
     
     <div class="controls">
-        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Switch to dark mode">
             <span class="material-symbols-outlined" id="theme-icon">light_mode</span>
         </button>
-        <button class="animation-toggle" onclick="toggleAnimation()" aria-label="Toggle animation">
+        <button class="animation-toggle" onclick="toggleAnimation()" aria-label="Toggle animation" title="Pause animation">
             <span class="material-symbols-outlined" id="animation-icon">pause</span>
         </button>
     </div>
@@ -434,9 +434,11 @@
             isLight = !isLight;
             document.body.classList.toggle('light', isLight);
             
-            // Update theme icon
+            // Update theme icon and tooltip
             const themeIcon = document.getElementById('theme-icon');
+            const themeButton = document.querySelector('.theme-toggle');
             themeIcon.textContent = isLight ? 'dark_mode' : 'light_mode';
+            themeButton.title = isLight ? 'Switch to light mode' : 'Switch to dark mode';
             
             // Resize canvas to update background
             resizeCanvas();
@@ -445,7 +447,9 @@
         function toggleAnimation() {
             animationPaused = !animationPaused;
             const animationIcon = document.getElementById('animation-icon');
+            const animationButton = document.querySelector('.animation-toggle');
             animationIcon.textContent = animationPaused ? 'play_arrow' : 'pause';
+            animationButton.title = animationPaused ? 'Resume animation' : 'Pause animation';
             
             if (!animationPaused) {
                 animate();
