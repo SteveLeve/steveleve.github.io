@@ -103,7 +103,7 @@ a:hover {
 
 .nav__link {
     padding: .4rem .75rem;
-        border-radius: 999px;
+        border-radius: 5pt;
         color: var(--muted);
         display: flex;
         align-items: center;
@@ -117,10 +117,11 @@ a:hover {
         text-decoration: none;
 }
 
-.nav__link .material-symbols-outlined {
+/* .nav__link .material-symbols-outlined {
     font-size: 1.1rem;
 }
 
+*/
 .nav__link.is-active {
     background: #ECE6F0;
     color: var(--brand-ink);
@@ -168,20 +169,21 @@ main,
 .hero-title {
     margin: 0 0 .5rem;
     letter-spacing: -0.02em;
-    font-size: clamp(1.6rem, 2.5vw + 1rem, 2.4rem);
+    /* font-size: clamp(1.6rem, 2.5vw + 1rem, 2.4rem); */
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-.hero-title .material-symbols-outlined {
+/* .hero-title .material-symbols-outlined {
     font-size: 1em;
 }
+*/
 .hero-subtitle {
     color: var(--muted);
     margin: .25rem 0 1rem;
     max-width: 70ch;
-    font-size: 1.1rem;
+    /* font-size: 1.1rem; */
     font-weight: 500;
 }
 
@@ -225,7 +227,7 @@ main,
 }
 
 .card__icon {
-    font-size: 1.5rem;
+    /* font-size: 1.5rem; */
         color: var(--brand);
     background: rgba(103, 80, 164, .12);
         padding: .5rem;
@@ -249,6 +251,9 @@ main,
             'opsz' 24;
 }
 
+.hero-title>.material-symbols-outlined {
+    font-size: inherit;
+}
 .stripe {
     margin: 1.75rem 0;
         padding: 1.25rem 1.25rem;
@@ -335,10 +340,11 @@ main,
         text-decoration: none;
 }
 
-.footer__link .material-symbols-outlined {
+/* .footer__link .material-symbols-outlined {
     font-size: 1.1rem;
 }
 
+*/
 .theme-toggle,
 .animation-toggle {
     border: 0;
@@ -350,7 +356,7 @@ main,
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.1rem;
+        /* font-size: 1.1rem; */
         transition: background-color .2s ease, color .2s ease;
 }
 
@@ -371,12 +377,13 @@ main,
         color: var(--brand);
 }
 
-.theme-toggle__icon,
+/* .theme-toggle__icon,
 .animation-toggle__icon {
     line-height: 1;
     font-size: 1.2rem;
 }
 
+*/
 body,
 .surface,
 .stripe,
