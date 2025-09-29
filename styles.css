@@ -192,8 +192,8 @@ main,
     margin: .25rem 0 1rem;
     max-width: 70ch;
 }
-.hero-ctas md-filled-button,
-.hero-ctas md-outlined-button {
+.hero-ctas a,
+.hero-ctas a {
     margin-right: .5rem
 }
 
