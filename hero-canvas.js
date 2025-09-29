@@ -1,8 +1,13 @@
 // Hero Canvas Background Animation System
 class HeroCanvas {
     constructor() {
-        this.canvas = document.getElementById('heroCanvas');
-        if (!this.canvas) return;
+        if (!document.body) {
+            return;
+        }
+        this.canvas = document.createElement('canvas');
+        this.canvas.id = 'heroCanvas';
+        this.canvas.setAttribute('aria-hidden', 'true');
+        document.body.prepend(this.canvas);
         
         this.ctx = this.canvas.getContext('2d');
         this.isLight = false;

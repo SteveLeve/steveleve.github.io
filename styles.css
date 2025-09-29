@@ -108,7 +108,18 @@ main, .footer { position: relative; z-index: 1; }
 [data-theme="dark"] .hero-surface {
   background: radial-gradient(1200px 600px at 10% -10%, rgba(208,188,255,.18) 0%, transparent 55%), var(--surface);
 }
-.hero-title { margin: 0 0 .5rem; letter-spacing: -0.02em; font-size: clamp(1.6rem, 2.5vw + 1rem, 2.4rem); }
+.hero-title {
+    margin: 0 0 .5rem;
+    letter-spacing: -0.02em;
+    font-size: clamp(1.6rem, 2.5vw + 1rem, 2.4rem);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.hero-title .material-symbols-outlined {
+    font-size: 1em;
+}
 .hero-subtitle { color: var(--muted); margin: .25rem 0 1rem; max-width: 70ch; font-size: 1.1rem; font-weight: 500; }
 .hero-content { color: var(--muted); margin: .25rem 0 1rem; max-width: 70ch; }
 .hero-ctas md-filled-button,
@@ -240,5 +251,4 @@ body, .surface, .stripe, .cta, .page-intro, .footer, .topbar, .card {
 .footer .spacer { flex: 1 }
 
 div[slot="title"] {
-    display: none;
 }
