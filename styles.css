@@ -399,4 +399,6 @@ body,
     flex: 1
 }
 
-div[slot="title"] {}
+div[slot="title"] {
+    display: none;
+}
