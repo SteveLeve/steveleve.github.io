@@ -49,8 +49,9 @@ a:hover {
 }
 
 .nav__controls {
-    position: sticky;
+    position: fixed;
     top: 0;
+    right: 0;
     z-index: 5;
     display: flex;
     justify-content: flex-end;
