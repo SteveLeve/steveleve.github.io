@@ -1,179 +1,79 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Steve Leve | Reliability-First Modernization</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-        rel="stylesheet">
-    <script type="module" src="https://unpkg.com/@material/web@1.4.1/all.js"></script>
-    <link rel="stylesheet" href="styles.css" />
-    <meta name="description"
-        content="25+ years of pragmatic tech leadership in reliability, modernization, and cloud strategy.">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About — Steve Leve</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet">
+<script type="module" src="https://unpkg.com/@material/web@2.2.0/all.js"></script>
+<!-- <script src="https://website-widgets.pages.dev/dist/sienna.min.js" defer></script> -->
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="hero-canvas.css" />
+<meta name="description"
+    content="About Steve Leve — full stack product engineer focused on AI harnessing engineering." />
 </head>
-
 <body>
-    <h1 class="title">Steven Leve</h1>
-    <div class="topbar">
-        <nav slot="actions" class="nav">
-            <div class="nav__links">
-                <a href="#top" class="nav__link">
-                    <span class="material-symbols-outlined">home</span>
-                    Home
-                </a>
-                <a href="#services" class="nav__link">
-                    <span class="material-symbols-outlined">build</span>
-                    Services
-                </a>
-                <a href="#case-studies" class="nav__link">
-                    <span class="material-symbols-outlined">folder_open</span>
-                    Case Studies
-                </a>
-                <a href="#about" class="nav__link">
-                    <span class="material-symbols-outlined">person</span>
-                    About
-                </a>
-                <a href="#contact" class="nav__link">
-                    <span class="material-symbols-outlined">contact_mail</span>
-                    Contact
-                </a>
-            </div>
-        </nav>
-    </div>
+<div class="nav__controls">
+    <button class="animation-toggle" type="button" aria-label="Pause animation" title="Pause animation"
+        data-animation-toggle>
+        <span class="material-symbols-outlined animation-toggle__icon" data-animation-icon>pause</span>
+    </button>
+    <button class="theme-toggle" type="button" aria-label="Toggle color theme">
+        <span class="theme-toggle__icon material-symbols-outlined" data-theme-icon>light_mode</span>
+    </button>
+</div>
 
-    <main class="container" id="top">
-        <!-- Home Section -->
-        <section class="section-container" aria-labelledby="hero-title">
-            <div class="section-header hero surface hero-surface">
-                <h1 id="hero-title" class="hero-title">Reliability Under Constraint.</h1>
-                <p class="hero-subtitle">Helping leaders and teams modernize with confidence — even in high-pressure environments.</p>
-                <p class="hero-content">With over 25 years of hands-on experience in technology leadership, I've guided teams through
-                    complex migrations, crisis management, and strategic transformations. My approach is pragmatic and
-                    reliability-first, ensuring that solutions are not only effective but also sustainable.</p>
-            </div>
-            <div class="pillars">
-                 <article class="card surface">
-                     <div class="card__header">
-                         <span class="material-symbols-outlined card__icon">emergency_home</span>
-                         <h3>Troubleshooting & Problem Solving</h3>
-                     </div>
-                     <p>When you're facing a crisis—a system outage, a performance bottleneck, or a security incident—I provide immediate, hands-on expertise to diagnose the root cause and restore stability.</p>
-                 </article>
-                 <article class="card surface">
-                     <div class="card__header">
-                         <span class="material-symbols-outlined card__icon">cloud_upload</span>
-                         <h3>Roadmapping & Technical Strategy</h3>
-                     </div>
-                     <p>Moving from a legacy monolith to the cloud? Integrating a new acquisition? I help you build a pragmatic, achievable roadmap that aligns with your business goals and mitigates risk.</p>
-                 </article>
-                 <article class="card surface">
-                     <div class="card__header">
-                         <span class="material-symbols-outlined card__icon">psychology</span>
-                         <h3>Trusted Advisory & Mentorship</h3>
-                     </div>
-                     <p>As a fractional CTO or SRE advisor, I provide the senior technical guidance you need to make sound decisions, upskill your team, and build a culture of reliability and engineering excellence.</p>
-                 </article>
-            </div>
-        </section>
+<main class="container">
+    <header class="hero surface hero-surface">
+        <h1 class="hero-title">Steve Leve</h1>
+        <p class="hero-content"></p>
+    </header>
 
-        <!-- Services Section -->
-        <section id="services" class="section-container" aria-labelledby="services-title">
-            <div class="section-header hero surface hero-surface">
-                <h2 id="services-title" class="section-title">Services</h2>
-                <p class="section-subtitle">Pragmatic solutions for complex challenges, from fixed-fee assessments to hands-on custom engagements.</p>
-            </div>
-            <div class="pillars">
-                <article class="card surface">
-                    <div class="card__header">
-                        <span class="material-symbols-outlined card__icon">emergency_home</span>
-                        <h3>Troubleshooting & Problem Solving</h3>
-                    </div>
-                    <p>Deep, hands-on engagement to resolve a persistent or critical technical issue, from recurring outages to performance degradation.</p>
-                </article>
+    <section class="grid-2">
+        <article class="card surface">
+        <h3>title 3-1</h3>
+        <ul>
+            <li>bullet 1</li>
+            <li>bullet 2</li>
+            <li>bullet 3</li>
+        </ul>
+        </article>
 
-                <article class="card surface">
-                    <div class="card__header">
-                        <span class="material-symbols-outlined card__icon">cloud_upload</span>
-                        <h3>Roadmapping & Technical Strategy</h3>
-                    </div>
-                    <p>Collaborative sessions to define the future state of your architecture and create a phased, realistic plan for cloud migration or re-platforming.</p>
-                </article>
+    <article class="card surface">
+        <h3>title 3-2</h3>
+        <ul>
+            <li>bullet 1</li>
+            <li>bullet 2</li>
+            <li>bullet 3</li>
+        </ul>
+        </article>
+    </section>
 
-                <article class="card surface">
-                    <div class="card__header">
-                        <span class="material-symbols-outlined card__icon">psychology</span>
-                        <h3>Trusted Advisor (Fractional CTO/Architect)</h3>
-                    </div>
-                    <p>Ongoing, part-time guidance for leadership and engineering teams, providing architectural reviews and senior-level mentorship.</p>
-                </article>
-
-                <article class="card surface">
-                    <div class="card__header">
-                        <span class="material-symbols-outlined card__icon">business_center</span>
-                        <h3>M&A Integration Support</h3>
-                    </div>
-                    <p>Technical due diligence and post-merger integration planning and execution to merge platforms, teams, and processes smoothly.</p>
-                </article>
-            </div>
-        </section>
-
-        <!-- Case Studies Section -->
-        <section id="case-studies" class="section-container" aria-labelledby="case-studies-title">
-            <div class="section-header hero surface hero-surface">
-                <h2 id="case-studies-title" class="section-title">Case Studies</h2>
-                <p class="section-subtitle">Real-world examples of how pragmatic, reliability-first thinking solves critical business challenges.</p>
-            </div>
-            <div class="pillars">
-                <article class="card surface">
-                    <h3>Data Center Exit Under Austerity</h3>
-                    <p><strong>Challenge:</strong> Exit a closing data center in 12 months with undocumented, physical servers.</p>
-                    <p><strong>Action:</strong> Led the reverse-engineering and P2V migration of all critical systems to a private cloud.</p>
-                    <p><strong>Result:</strong> Completed the migration ahead of schedule with <strong>zero revenue loss</strong>, transforming high-risk hardware into manageable virtual assets.</p>
-                </article>
-
-                <article class="card surface">
-                    <h3>AWS Migration & Modernization</h3>
-                    <p><strong>Challenge:</strong> Migrate an entire platform from a bottlenecked hosting provider to AWS in under 6 months.</p>
-                    <p><strong>Action:</strong> Planned and executed a "lift and shift" migration, managing consultants and redesigning the observability stack for the cloud.</p>
-                    <p><strong>Result:</strong> Completed the migration with <strong>zero downtime</strong>, unlocking new capabilities and leading to an AWS case study feature.</p>
-                </article>
-
-                <article class="card surface">
-                    <h3>Platform Consolidation & Revenue Protection</h3>
-                    <p><strong>Challenge:</strong> Integrate a legacy tracking system (250M monthly requests) into a new platform with zero customer impact.</p>
-                    <p><strong>Action:</strong> Co-designed a multi-layer reverse proxy architecture using Cloudflare and AWS Lambda for intelligent, seamless traffic routing.</p>
-                    <p><strong>Result:</strong> Protected <strong>99.5% of channel revenue</strong> during the migration and reduced error rates by <strong>75%</strong>.</p>
-                </article>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="stripe surface" aria-labelledby="about-title">
-            <div class="about-content">
-                <h2 id="about-title">25+ Years of Pragmatic Tech Leadership</h2>
-                <p>For over two decades, I’ve been a hands-on technologist and leader, navigating the entire lifecycle of a high-growth tech company. This journey wasn't just about technology; it was about people. It was about keeping teams steady during a crisis, mentoring engineers, and translating complex technical realities into clear business strategy for executives.</p>
-                <p>It taught me that the best solutions are not just technically elegant—they are pragmatic, resilient, and built with empathy for the people who will use and maintain them.</p>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="cta surface" aria-labelledby="contact-title">
-            <h2 id="contact-title">Let's Solve Your Next Challenge</h2>
-            <p>I'm currently available for select consulting engagements. The best way to start is with a conversation.</p>
-            <a href="https://www.linkedin.com/in/steve-leve" target="_blank">Connect on LinkedIn</a>
-        </section>
+    <section class="stripe surface">
+        <div>
+            <h2>Title 2</h2>
+            <p></p>
+        </div>
+    </section>
     </main>
 
-    <footer class="footer">
-        <span>© 2024 Steve Leve</span>
-        <span class="spacer"></span>
-        <a href="https://www.linkedin.com/in/steve-leve" target="_blank" rel="noopener" class="footer__link">
-            <span class="material-symbols-outlined">work</span>
-            LinkedIn
-        </a>
+<footer class="footer">
+    <span>© <span id="y"></span> Steve Leve</span>
+    <span class="spacer"></span>
+    <a href="https://github.com/SteveLeve" target="_blank" rel="noopener" class="footer__link">
+        <span class="material-symbols-outlined">code</span>
+        GitHub
+    </a>
+    <a href="https://www.linkedin.com/in/steve-leve" target="_blank" rel="noopener" class="footer__link">
+        <span class="material-symbols-outlined">work</span>
+        LinkedIn
+    </a>
     </footer>
+<script src="site.js" defer></script>
+<script src="hero-canvas.js" defer></script>
 </body>
 </html>

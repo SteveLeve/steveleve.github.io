@@ -45,25 +45,12 @@ a:hover {
     justify-content: center;
 }
 
-.nav {
-    display: flex;
-        align-items: center;
-        gap: .5rem;
-    background: var(--surface);
-    font-size: larger;
-    padding: 0 1.25rem;
-}
-
-.nav__links {
-    display: flex;
-        gap: .5rem;
-        flex-wrap: wrap;
-}
-
 .nav__controls {
-    display: flex;
-        gap: .35rem;
-        margin-left: auto;
+    position: sticky;
+        top: 0;
+        right: 0;
+        height: 0;
+        text-align: right
 }
 
 .nav__link {
