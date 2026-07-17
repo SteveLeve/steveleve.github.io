@@ -195,7 +195,8 @@ class HeroCanvas {
 
     updateAnimationToggleUI() {
         const animationButton = document.querySelector('[data-animation-toggle]');
-        const animationIcon = animationButton?.querySelector('[data-animation-icon]');
+        const pauseIcon = animationButton?.querySelector('[data-animation-icon="pause"]');
+        const playIcon = animationButton?.querySelector('[data-animation-icon="play"]');
         const label = this.animationPaused ? 'Resume animation' : 'Pause animation';
 
         if (animationButton) {
@@ -203,9 +204,8 @@ class HeroCanvas {
             animationButton.setAttribute('title', label);
         }
 
-        if (animationIcon) {
-            animationIcon.textContent = this.animationPaused ? 'play_arrow' : 'pause';
-        }
+        if (pauseIcon) pauseIcon.hidden = this.animationPaused;
+        if (playIcon) playIcon.hidden = !this.animationPaused;
     }
 }
 
